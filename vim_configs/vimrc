@@ -136,13 +136,6 @@ Plugin 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 
 let g:tmuxline_powerline_separators = 0
-Plugin 'fatih/vim-go'
-let g:go_highlight_operators = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_fmt_command = "goimports"
-
 Plugin 'tomtom/tcomment_vim'
 map <silent> <LocalLeader>cc :TComment<CR>
 

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+GIT_USERS=(
+	#"work:me#me@example.com"
+	#"personal:me#me@example.com"
+)
+SUPPORTED_PROFILES=""
+
+for profile in "${GIT_USERS[@]}" ; do
+    PROFILE="${profile%%:*}"
+    SUPPORTED_PROFILES="$PROFILE $SUPPORTED_PROFILES"
+    if [ "$PROFILE" == "$1" ]; then
+      GIT_INFO="${profile##*:}"
+      GIT_EMAIL="${GIT_INFO##*#}"
+      GIT_USER="${GIT_INFO%%#*}"
+      git config user.name $GIT_USER
+      git config user.email $GIT_EMAIL
+      exit 0
+    fi
+done
+
+if [ -x "$SUPPORTED_PROFILES" ]; then
+  SUPPORTED_PROFILES="NONE CONFIGURED, Edit $HOME/.bin/git-user"
+fi
+echo "USAGE: git-user <profile>"
+echo "  Profiles supported: $SUPPORTED_PROFILES"

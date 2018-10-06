@@ -1,0 +1,87 @@
+#!/bin/bash
+
+VIM_COMMAND=vim
+VIM_CONFIG=vimrc
+VIM_PLUGIN_FILE=$HOME/.vim/autoload/plug.vim
+VIM_PLUGIN_DIR=$HOME/.vim/plugged
+VIM_COLORS_DIR=$HOME/.vim/colors
+VIM_RC_DIRECTORY=$HOME/.vim
+
+if [ "$VIM_COMMAND" = "nvim" ]; then
+  VIM_CONFIG=init.vim
+  VIM_RC_DIRECTORY=$HOME/.config/nvim
+  VIM_PLUGIN_FILE=$HOME/.config/nvim/autoload/plug.vim
+  VIM_PLUGIN_DIRECTORY=$HOME/.config/nvim/plugged
+  VIM_COLORS_DIRECTORY=$HOME/.config/nvim/local-plugins/color-schemes/colors
+fi
+
+function wrap_execute {
+  echo "$@"
+  "$@"
+}
+
+function make_backup {
+  echo "Backing up $1"
+  [ ! -f wrap_execute ] || mv $1 $1.bak
+}
+
+function create_directory {
+  if [ ! -d $1 ] ; then
+    wrap_execute mkdir $1
+  fi
+}
+
+function configure_vim {
+  create_directory $VIM_RC_DIRECTORY
+  [ -h $VIM_RC_DIRECTORY/$VIM_RC_NAME ] && make_backup $VIM_RC_DIRECTORY/$VIM_CONFIG
+  wrap_execute ln -fs $PWD/vim_configs/$VIM_CONFIG $VIM_RC_DIRECTORY/$VIM_CONFIG
+
+  VIM_COLOR_FILE=Tomorrow-Night.vim
+  create_directory $VIM_COLORS_DIR
+  [ -h $VIM_COLORS_DIR/$VIM_COLOR_FILE ] && make_backup $VIM_COLORS_DIR/$VIM_COLOR_FILE
+  wrap_execute ln -fs $PWD/vim_configs/$VIM_COLOR_FILE $VIM_COLORS_DIR/$VIM_COLOR_FILE
+}
+
+function install_vim_plugins {
+  make_backup $VIM_PLUGIN_FILE
+  make_backup $VIM_PLUGIN_DIR
+  wrap_execute curl -fLo $VIM_PLUGIN_FILE --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  VUNDLER_FOLDER=$HOME/.vim/bundle/Vundle.vim
+  if [ -d $VUNDLER_FOLDER ]; then
+    cd $VUNDLER_FOLDER
+    wrap_execute git pull
+    cd -
+  else
+    wrap_execute git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  fi
+
+  wrap_execute $VIM_COMMAND +PluginInstall
+}
+
+
+function symlink_root_files {
+  for root_file in $(ls root_files/*); do
+    source=$PWD/$root_file
+    destination=$(echo $HOME/$root_file | sed 's/root_files\//./')
+
+    if [ -f "$destination" ] ; then
+      echo "Found existing configuration for $destination (will backup)"
+      make_backup $destination
+    fi
+    [ -h $destination ] || make_backup $destination
+    wrap_execute ln -fs $source $destination
+  done
+}
+
+function configure_bin_folders {
+  [ -f $HOME/.bin ] && [ ! -h $HOME/.bin ] && make_backup $HOME/.bin
+  wrap_execute ln -fs $PWD/bin/ $HOME/.bin
+
+  [ -d $HOME/.bin.local ] || wrap_execute mkdir $HOME/.bin.local
+}
+
+symlink_root_files
+install_vim_plugins
+configure_vim
+configure_bin_folders
