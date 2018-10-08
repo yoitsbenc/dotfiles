@@ -56,7 +56,7 @@ function install_vim_plugins {
     wrap_execute git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
   fi
 
-  wrap_execute $VIM_COMMAND +PluginInstall
+  wrap_execute $VIM_COMMAND +PluginInstall +qall
 }
 
 
