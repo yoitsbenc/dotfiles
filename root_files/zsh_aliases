@@ -72,3 +72,24 @@ simple_git_prompt_info() {
   # user=$($(which git) config user.name 2> /dev/null)
   echo " (@${ref#refs/heads/})"
 }
+
+ressh() {
+  local agent_sock
+  for agent_sock in /tmp/ssh-*/agent.*; do
+    [ ! -S "$agent_sock" ] && continue
+
+    local code=$(env SSH_AUTH_SOCK="$agent_sock" timeout 1 ssh-add -L &> /dev/null ; echo "$?")
+
+    if (( code == 0 )); then
+      export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+      /bin/ln -sf "$agent_sock" "$SSH_AUTH_SOCK"
+      echo "export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock"
+      echo "/bin/ln -sf $agent_sock $SSH_AUTH_SOCK"
+    elif (( code == 2 )); then
+      rm -f $agent_sock
+    fi
+  done
+
+  echo
+  ssh-add -l 2>/dev/null
+}
