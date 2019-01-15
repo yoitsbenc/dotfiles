@@ -13,7 +13,7 @@ for profile in "${GIT_USERS[@]}" ; do
       GIT_INFO="${profile##*:}"
       GIT_EMAIL="${GIT_INFO##*#}"
       GIT_USER="${GIT_INFO%%#*}"
-      git config user.name $GIT_USER
+      git config user.name "$GIT_USER"
       git config user.email $GIT_EMAIL
       exit 0
     fi
