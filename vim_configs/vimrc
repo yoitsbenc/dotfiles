@@ -115,8 +115,6 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'tpope/vim-rails'
 Plugin 'crookedneighbor/bufexplorer'
-Plugin 'pgr0ss/vimux-ruby-test'
-Plugin 'pitluga/vimux-nose-test'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'tpope/vim-endwise'
 Plugin 'jtratner/vim-flavored-markdown'
@@ -134,6 +132,11 @@ Plugin 'suan/vim-instant-markdown.git'
 
 Plugin 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
+
+Plugin 'janko/vim-test'
+" make test commands execute using vimux.vim
+let test#strategy = "vimux"
+let test#python#runner = 'pytest'
 
 let g:tmuxline_powerline_separators = 0
 Plugin 'tomtom/tcomment_vim'
@@ -153,8 +156,10 @@ map <silent> <LocalLeader>rp :wa<CR> :VimuxRunCommand('python ' . shellescape(@%
 map <silent> <LocalLeader>rr :wa<CR> :VimuxRunCommand('ruby ' . shellescape(@%, 1) )<CR>
 map <silent> <LocalLeader>rs :wa<CR> :VimuxRunCommand('$SHELL ' . shellescape(@%, 1) )<CR>
 map <silent> <LocalLeader>rl :wa<CR> :VimuxRunLastCommand<CR>
-map <silent> <LocalLeader>rb :wa<CR> :RunAllNoseTests<CR>
-map <silent> <LocalLeader>rf :wa<CR> :RunFocusedNoseTests<CR>
+map <silent> <LocalLeader>ra :wa<CR> :TestSuite<CR>
+map <silent> <LocalLeader>rb :wa<CR> :TestFile<CR>
+map <silent> <LocalLeader>rf :wa<CR> :TestNearest<CR>
+map <silent> <LocalLeader>rv :wa<CR> :TestVisit<CR>
 map <silent> <LocalLeader>vi :wa<CR> :VimuxInspectRunner<CR>
 map <silent> <LocalLeader>vk :wa<CR> :VimuxInterruptRunner<CR>
 map <silent> <LocalLeader>vx :wa<CR> :VimuxClosePanes<CR>
