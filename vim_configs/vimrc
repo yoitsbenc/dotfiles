@@ -77,7 +77,7 @@ autocmd FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType less setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType md setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType python runtime python_mappings.vim
 autocmd FileType ruby runtime ruby_mappings.vim
 autocmd FileType yml setlocal filetype=yaml expandtab
 
@@ -163,10 +163,10 @@ map <silent> <LocalLeader>nf :NERDTreeFind<CR>
 Plugin 'benmills/vimux'
 Plugin 'benmills/vimux-golang'
 let g:VimuxUseNearestPane = 1
-map <silent> <LocalLeader>rp :wa<CR> :VimuxRunCommand('python ' . shellescape(@%, 1) )<CR>
-map <silent> <LocalLeader>rr :wa<CR> :VimuxRunCommand('ruby ' . shellescape(@%, 1) )<CR>
+
 map <silent> <LocalLeader>rs :wa<CR> :VimuxRunCommand('$SHELL ' . shellescape(@%, 1) )<CR>
 map <silent> <LocalLeader>rl :wa<CR> :VimuxRunLastCommand<CR>
+map <silent> <LocalLeader>vl :wa<CR> :VimuxRunLastCommand<CR>
 map <silent> <LocalLeader>ra :wa<CR> :TestSuite<CR>
 map <silent> <LocalLeader>rb :wa<CR> :TestFile<CR>
 map <silent> <LocalLeader>rf :wa<CR> :TestNearest<CR>
