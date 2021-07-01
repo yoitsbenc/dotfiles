@@ -129,6 +129,8 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'suan/vim-instant-markdown.git'
+Plugin 'udalov/kotlin-vim'
+Plugin 'pgr0ss/vim-github-url'
 
 Plugin 'dense-analysis/ale'
 let g:ale_fixers = {
