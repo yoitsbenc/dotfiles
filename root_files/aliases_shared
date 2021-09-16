@@ -64,3 +64,18 @@ alias bmux-start="echo 'DEPRECATED: SWITCH TO tmux-start' && tmux_start"
 alias bmuxs="echo 'DEPRECATED: SWITCH TO tmuxs' && tmux_start"
 alias bmux-list="echo 'DEPRECATED: SWITCH TO tmux-list' && tmux_list"
 alias bmuxl="echo 'DEPRECATED:SWTICH TO tmuxl' && tmux_list"
+alias k="kubectl"
+
+alias glink-branch='git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)'
+bump-the-branch (){
+    branch_name=$(git rev-parse --abbrev-ref HEAD)
+    if [[ "$branch_name" == "main" ]] || [[ "$branch_name" == "master" ]]; then
+      echo "Cannot use on main branch"
+    else
+      git commit --allow-empty -m "empty commit to bump the branch"
+      git push origin HEAD
+    fi
+}
+
+alias dps='docker ps --format "table {{.ID}} {{.CreatedAt}} {{.Names}} 	{{.Image}}	{{.Status}}"'
+alias docker-stop='docker ps -aq | xargs docker stop'
