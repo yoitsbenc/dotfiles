@@ -122,7 +122,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-repeat'
-Plugin 'jgdavey/vim-turbux'
 Plugin 'epmatsw/ag.vim'
 Plugin 'groenewege/vim-less'
 Plugin 'ekalinin/Dockerfile.vim'
@@ -131,6 +130,12 @@ Plugin 'edkolev/tmuxline.vim'
 Plugin 'suan/vim-instant-markdown.git'
 Plugin 'udalov/kotlin-vim'
 Plugin 'pgr0ss/vim-github-url'
+Plugin 'Konfekt/FastFold'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'prabirshrestha/vim-lsp'
+
+" Plugin 'davidhalter/jedi-vim'
+" let g:jedi#completions_command = "<C-N>"
 
 Plugin 'dense-analysis/ale'
 let g:ale_fixers = {
