@@ -171,6 +171,10 @@ Plugin 'benmills/vimux'
 Plugin 'benmills/vimux-golang'
 let g:VimuxUseNearestPane = 1
 
+if $TMUX =~ "tmate"
+  let g:VimuxTmuxCommand = "tmate"
+endif
+
 map <silent> <LocalLeader>rs :wa<CR> :VimuxRunCommand('$SHELL ' . shellescape(@%, 1) )<CR>
 map <silent> <LocalLeader>rl :wa<CR> :VimuxRunLastCommand<CR>
 map <silent> <LocalLeader>vl :wa<CR> :VimuxRunLastCommand<CR>
@@ -191,9 +195,12 @@ map <silent> <LocalLeader>ri :wa<CR> :VimuxRunCommand('vim_test_integration')<CR
 map <silent> <LocalLeader>ru :wa<CR> :VimuxRunCommand('vim_test_unit')<CR>
 
 Plugin 'kien/ctrlp.vim'
-let g:ctrlp_show_hidden = 1
+let g:ctrlp_show_hidden = 0
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  'node_modules$',
+  \ }
 map <silent> <LocalLeader>mr :CtrlPMRU<CR>
 map <silent> <C-p><C-b> :CtrlPBuffer<CR>
 map <silent> <leader>ff :CtrlP<CR>
