@@ -51,6 +51,8 @@ tmux_list () {
   ps -o ruser,command -ax | grep '[n]ew-session -s' | ruby -ne '$_ =~ /^(\w+).*-s (\w+)/; puts "#{$1} started #{$2}"'
 }
 
+alias ctagme='ctags -R --exclude="*.js"'
+
 alias tmux-start='tmux_start'
 alias tmuxs='tmux_start'
 alias tmux-list='tmux_list'
