@@ -1,0 +1,17 @@
+set visualbell
+set noerrorbells
+set NERDTree
+set vim-surround
+set vim-commentary
+
+
+nmap <leader>ff :action GotoAction<CR>
+
+map <leader>nt :NERDTreeToggle<CR>
+map <leader>nr :NERDTree<CR>
+map <leader>nf :NERDTreeFind<CR>
+" map <leader>cc :ChangeCommentary<CR>
+map <leader>cc <Action>(CommentByLineComment)
+
+map <leader>z <Action>(ToggleDistractionFreeMode)
+map <leader>rl <Action>(Run)
