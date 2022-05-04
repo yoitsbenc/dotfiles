@@ -148,17 +148,6 @@ let g:ale_linters = {
 let g:ale_python_auto_pipenv = 1
 let g:ale_fix_on_save = 1
 
-Plugin 'dense-analysis/ale'
-let g:ale_fixers = {
-  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \   'python': ['black', 'isort'],
-  \}
-let g:ale_linters = {
-  \   'python': ['pylint'],
-  \}
-let g:ale_python_auto_pipenv = 1
-let g:ale_fix_on_save = 1
-
 Plugin 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 
