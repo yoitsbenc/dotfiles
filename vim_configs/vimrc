@@ -246,7 +246,7 @@ nnoremap <LocalLeader>p :set paste!<CR>
 imap <C-L> <SPACE>=><SPACE>
 imap <C-E>= <lt>%=  %><esc>hhi
 imap <C-E>- <lt>%  %><esc>hhi
-imap jj <C-C>
+" imap jj <C-C>
 
 " ========= Functions ========
 
