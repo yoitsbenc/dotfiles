@@ -89,3 +89,6 @@ symlink_root_files
 install_vim_plugins
 configure_vim
 configure_bin_folders
+
+# Install how_do_i
+touch ~/.how_do_i
