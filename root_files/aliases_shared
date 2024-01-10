@@ -70,7 +70,7 @@ alias bmuxl="echo 'DEPRECATED:SWTICH TO tmuxl' && tmux_list"
 alias k="kubectl"
 alias kns="kubens"
 
-alias glink-branch='git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)'
+alias ghlinkbranch='git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)'
 bump-the-branch (){
     branch_name=$(git rev-parse --abbrev-ref HEAD)
     if [[ "$branch_name" == "main" ]] || [[ "$branch_name" == "master" ]]; then
@@ -145,3 +145,7 @@ function previousapp() {
 }
 alias n=nextapp
 alias p=previousapp
+
+function dports() {
+  docker ps --format "{{.Names | printf \"%-60s\" }}{{.Ports}}" | sed "s/`basename $PWD`_//g"
+}
