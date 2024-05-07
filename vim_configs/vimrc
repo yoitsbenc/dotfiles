@@ -14,6 +14,7 @@ set foldlevel=99
 set backspace=indent,eol,start
 set cursorline
 set dir=/tmp//
+set nofixendofline
 set hidden
 set hlsearch
 set ignorecase
@@ -79,10 +80,11 @@ autocmd FileType md setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType python runtime python_mappings.vim
 autocmd FileType ruby runtime ruby_mappings.vim
+autocmd FileType tf setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType yml setlocal filetype=yaml expandtab
 
 " Autoremove trailing spaces when saving the buffer
-autocmd FileType c,cpp,elixir,elm,eruby,html,ghmarkdown,go,java,javascript,json,less,md,php,python,ruby,yaml autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType c,cpp,elixir,elm,eruby,html,ghmarkdown,go,java,javascript,json,less,md,php,python,ruby,tf,yaml autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 
 " Fix indenting for html files
@@ -130,23 +132,33 @@ Plugin 'edkolev/tmuxline.vim'
 Plugin 'suan/vim-instant-markdown.git'
 Plugin 'udalov/kotlin-vim'
 Plugin 'pgr0ss/vim-github-url'
+Plugin 'tommcdo/vim-fubitive'
 Plugin 'Konfekt/FastFold'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'prabirshrestha/vim-lsp'
+Plugin 'mgedmin/python-imports.vim'
 
 " Plugin 'davidhalter/jedi-vim'
 " let g:jedi#completions_command = "<C-N>"
 
 Plugin 'dense-analysis/ale'
 let g:ale_fixers = {
-  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \   '*': ['remove_trailing_lines'],
   \   'python': ['black', 'isort'],
+  \   'go': ['gofmt'],
   \}
+  " \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 let g:ale_linters = {
-  \   'python': ['pylint'],
+  \   'python': ['flake8', 'pylint', 'mypy'],
+  \   'tf': ['tflint'],
   \}
+  " \   'python': ['ruff','flake8', 'pylint', 'mypy'],
+let g:ale_pattern_options = {'so/merchant-dashboard-backend': {'fixers': []}}
 let g:ale_python_auto_pipenv = 1
 let g:ale_fix_on_save = 1
+command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+nmap <silent> <leader>an :ALENext<cr>
+nmap <silent> <leader>ap :ALEPrevious<cr>
 
 Plugin 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
@@ -215,16 +227,6 @@ let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_mode_map = { "mode": "passive" }
 
-Plugin 'elmcast/elm-vim'
-let g:elm_setup_keybindings = 0
-nmap <buffer> <LocalLeader>m <Plug>(elm-make)
-nmap <buffer> <LocalLeader>b <Plug>(elm-make-main)
-nmap <buffer> <LocalLeader>t <Plug>(elm-test)
-nmap <buffer> <LocalLeader>r <Plug>(elm-repl)
-nmap <buffer> <LocalLeader>e <Plug>(elm-error-detail)
-" nmap <buffer> <LocalLeader>d <Plug>(elm-show-docs)
-" nmap <buffer> <LocalLeader>w <Plug>(elm-browse-docs)
-
 " ========= Shortcuts ========
 
 map <silent> <LocalLeader>rt :!ctags -R --exclude=".git\|.svn\|log\|tmp\|db\|pkg" --extra=+f --langmap=Lisp:+.clj<CR>
@@ -242,7 +244,7 @@ nnoremap <LocalLeader>p :set paste!<CR>
 imap <C-L> <SPACE>=><SPACE>
 imap <C-E>= <lt>%=  %><esc>hhi
 imap <C-E>- <lt>%  %><esc>hhi
-imap jj <C-C>
+" imap jj <C-C>
 
 " ========= Functions ========
 

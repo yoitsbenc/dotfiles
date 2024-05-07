@@ -61,13 +61,16 @@ alias tmuxl='tmux_list'
 alias tmux-public='tmux_public'
 alias tmuxpub='tmux_public'
 
+alias treep='tree -I "*.pyc"'
+
 alias bmux-start="echo 'DEPRECATED: SWITCH TO tmux-start' && tmux_start"
 alias bmuxs="echo 'DEPRECATED: SWITCH TO tmuxs' && tmux_start"
 alias bmux-list="echo 'DEPRECATED: SWITCH TO tmux-list' && tmux_list"
 alias bmuxl="echo 'DEPRECATED:SWTICH TO tmuxl' && tmux_list"
 alias k="kubectl"
+alias kns="kubens"
 
-alias glink-branch='git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)'
+alias ghlinkbranch='git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)'
 bump-the-branch (){
     branch_name=$(git rev-parse --abbrev-ref HEAD)
     if [[ "$branch_name" == "main" ]] || [[ "$branch_name" == "master" ]]; then
@@ -79,4 +82,70 @@ bump-the-branch (){
 }
 
 alias dps='docker ps --format "table {{.ID}} {{.CreatedAt}} {{.Names}} 	{{.Image}}	{{.Status}}"'
+alias doc=docker-compose
 alias docker-stop='docker ps -aq | xargs docker stop'
+
+alias pyenvme='pyenv shell $(basename $PWD)'
+
+alias pod-get="kubectl get pods | grep "
+alias pr-open="gh pr view --web"
+
+function pod-shell() {
+  pod_id=$1
+
+  kubectl exec -it $pod_id -- ./docker-entrypoint.sh bash
+}
+
+function nextapp() {
+  list_file=~/.team-apps
+
+  current_app=`basename $PWD`
+
+  if ! grep -q $current_app $list_file ; then
+    echo "$current_app is not an app"
+    return
+  fi
+
+  first_app="0"
+
+  next_app=`grep -A 1 $current_app $list_file | tail -n 1`
+
+  if [[ "$next_app" == "$current_app" ]]; then
+    next_app=`head -n 1 $list_file`
+  fi
+
+  echo "Old: $current_app"
+  echo "New: $next_app"
+
+  cd ~/so/$next_app
+}
+
+function previousapp() {
+  list_file=~/.team-apps
+
+  current_app=`basename $PWD`
+
+  if ! grep -q $current_app $list_file ; then
+    echo "$current_app is not an app"
+    return
+  fi
+
+  first_app="0"
+
+  next_app=`grep -B 1 $current_app $list_file | head -n 1`
+
+  if [[ "$next_app" == "$current_app" ]]; then
+    next_app=`tail -n 1 $list_file`
+  fi
+
+  echo "Old: $current_app"
+  echo "New: $next_app"
+
+  cd ~/so/$next_app
+}
+alias n=nextapp
+alias p=previousapp
+
+function dports() {
+  docker ps --format "{{.Names | printf \"%-60s\" }}{{.Ports}}" | sed "s/`basename $PWD`_//g"
+}
